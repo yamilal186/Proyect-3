@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Yamila Ledesma</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .photo-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            border: 5px solid white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .contact-item i {
+            font-size: 1.1em;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            font-size: 1.2em;
+        }
+
+        .profile-text {
+            line-height: 1.8;
+            color: #555;
+            text-align: justify;
+        }
+
+        .experience-item, .education-item {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 3px solid #764ba2;
+            transition: transform 0.3s ease;
+        }
+
+        .experience-item:hover, .education-item:hover {
+            transform: translateX(5px);
+        }
+
+        .item-title {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .item-subtitle {
+            color: #667eea;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .item-date {
+            color: #888;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+            font-style: italic;
+        }
+
+        .item-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .skill-category h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .skill-item {
+            margin-bottom: 12px;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 0.95em;
+        }
+
+        .skill-bar {
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+
+        .buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 40px 20px 30px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header .subtitle {
+                font-size: 1.1em;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                bottom: 20px;
+                right: 20px;
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+
+            .buttons {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="cv-content">
+        <div class="header">
+            <div class="photo-container">
+                <img src="https://via.placeholder.com/150" alt="Yamila Ledesma" id="profile-photo">
+            </div>
+            <h1>Yamila Ledesma</h1>
+            <p class="subtitle">Especialista en Desarrollo Comercial</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Posadas, Misiones</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>+54 9 XXX XXX-XXXX</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>yamila.ledesma@email.com</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i>
+                    Perfil Profesional
+                </h2>
+                <p class="profile-text">
+                    Profesional orientada a resultados con sólida trayectoria en el desarrollo de estrategias comerciales y gestión de cuentas clave. Experta en identificar oportunidades de negocio, construir relaciones duraderas con clientes y liderar equipos hacia el cumplimiento de objetivos. Combino visión estratégica con habilidades de negociación para impulsar el crecimiento empresarial y la satisfacción del cliente.
+                </p>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-briefcase"></i>
+                    Experiencia Profesional
+                </h2>
+                <div class="experience-item">
+                    <div class="item-title">Ejecutiva de Cuentas Senior</div>
+                    <div class="item-subtitle">Empresa Comercial S.A.</div>
+                    <div class="item-date">Marzo 2021 - Presente</div>
+                    <p class="item-description">
+                        Desarrollo y gestión de cartera de clientes corporativos, logrando un incremento del 35% en la facturación anual. Implementación de estrategias de fidelización y cross-selling que mejoraron la retención en un 28%.
+                    </p>
+                </div>
+                <div class="experience-item">
+                    <div class="item-title">Coordinadora Comercial</div>
+                    <div class="item-subtitle">Distribuidora Regional</div>
+                    <div class="item-date">Enero 2019 - Febrero 2021</div>
+                    <p class="item-description">
+                        Supervisión de equipo de 8 vendedores, diseño de planes de acción comercial y análisis de métricas de desempeño. Expansión de la cobertura territorial en un 40% mediante apertura de nuevos canales de distribución.
+                    </p>
+                </div>
+                <div class="experience-item">
+                    <div class="item-title">Representante Comercial</div>
+                    <div class="item-subtitle">Soluciones Empresariales</div>
+                    <div class="item-date">Junio 2016 - Diciembre 2018</div>
+                    <p class="item-description">
+                        Prospección activa de clientes B2B, presentación de propuestas comerciales y cierre de negocios. Reconocida como "Vendedora del Año" en 2017 por superar las metas en un 150%.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    Formación Académica
+                </h2>
+                <div class="education-item">
+                    <div class="item-title">Licenciatura en Administración de Empresas</div>
+                    <div class="item-subtitle">Universidad Nacional de Misiones</div>
+                    <div class="item-date">2012 - 2016</div>
+                </div>
+                <div class="education-item">
+                    <div class="item-title">Diplomatura en Marketing y Ventas</div>
+                    <div class="item-subtitle">Instituto de Capacitación Profesional</div>
+                    <div class="item-date">2018</div>
+                </div>
+                <div class="education-item">
+                    <div class="item-title">Certificación en Negociación Estratégica</div>
+                    <div class="item-subtitle">Cámara de Comercio de Misiones</div>
+                    <div class="item-date">2020</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i>
+                    Competencias Profesionales
+                </h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3><i class="fas fa-handshake"></i> Gestión Comercial</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Prospección de Clientes</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Negociación Estratégica</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Cierre de Ventas</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3><i class="fas fa-chart-line"></i> Análisis y Estrategia</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Análisis de Mercado</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Planificación Comercial</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Interpretación de KPIs</span>
+                                <span>87%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 87%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3><i class="fas fa-users"></i> Liderazgo y Gestión</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Dirección de Equipos</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Coaching Comercial</span>
+                                <span>86%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 86%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Gestión de Conflictos</span>
+                                <span>84%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 84%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3><i class="fas fa-laptop"></i> Herramientas Digitales</h3>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>CRM (Salesforce/HubSpot)</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Excel Avanzado</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>Google Analytics</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="btn btn-whatsapp" onclick="contactWhatsApp()" title="Contactar por WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </button>
+        <button class="btn btn-download" onclick="downloadPDF()" title="Descargar CV en PDF">
+            <i class="fas fa-download"></i>
+        </button>
+    </div>
+
+    <script>
+        // Animación de barras de progreso al cargar
+        window.addEventListener('load', function() {
+            const progressBars = document.querySelectorAll('.skill-progress');
+            progressBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        });
+
+        // Función para contactar por WhatsApp
+        function contactWhatsApp() {
+            // Reemplaza con tu número de WhatsApp (incluye código de país sin +)
+            const phoneNumber = '5493XXXXXXXXX'; // Formato: 549 + código de área + número
+            const message = encodeURIComponent('Hola Yamila, vi tu CV y me gustaría contactarte.');
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+        }
+
+        // Función para descargar CV en PDF
+        function downloadPDF() {
+            const element = document.getElementById('cv-content');
+            const buttons = document.querySelector('.buttons');
+            
+            // Ocultar botones antes de generar PDF
+            buttons.style.display = 'none';
+            
+            const opt = {
+                margin: 0,
+                filename: 'CV_Yamila_Ledesma.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true
+                },
+                jsPDF: { 
+                    unit: 'mm', 
+                    format: 'a4', 
+                    orientation: 'portrait' 
+                }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Mostrar botones nuevamente
+                buttons.style.display = 'flex';
+            });
+        }
+
+        // Efecto parallax suave al hacer scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            const scrolled = window.pageYOffset;
+            header.style.transform = `translateY(${scrolled * 0.4}px)`;
+        });
+    </script>
+</body>
+</html>
